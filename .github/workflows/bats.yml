@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Add HTTP basic auth credentials
-        run: echo '${{ secrets.COMPOSER_AUTH_JSON }}' > $GITHUB_WORKSPACE/auth.json
+        run: echo '${{ secrets.COMPOSER_AUTH_JSON }}' > $GITHUB_WORKSPACE/compose/auth.json
 
       - name: Install dependencies
         run: |
