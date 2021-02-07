@@ -30,7 +30,6 @@ jobs:
         run: |
           which composer
           echo $(hash composer)
-          mkdir ~/.composer
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
           ls ~/.composer/auth.json
           bats compose/tests
