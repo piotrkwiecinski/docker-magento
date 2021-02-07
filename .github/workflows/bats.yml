@@ -20,16 +20,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get -y update && sudo apt-get install -y ca-certificates
+          command -v update-ca-certificates > /dev/null || sudo apt-get -y update && sudo apt-get install -y ca-certificates
 
       - name: Setup PHP, with composer
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: '7.4'
       - name: Test
+        shell: bash
         run: |
-          which composer
-          echo $(hash composer)
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          ls ~/.composer/auth.json
           bats compose/tests
