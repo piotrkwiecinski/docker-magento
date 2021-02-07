@@ -20,7 +20,7 @@ bin/copytocontainer --all
 
 bin/clinotty chmod u+x bin/magento
 
-bin/setup-composer-auth
+# bin/setup-composer-auth
 
 echo "Forcing reinstall of composer deps to ensure perms & reqs..."
 bin/clinotty composer global require hirak/prestissimo
