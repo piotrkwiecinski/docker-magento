@@ -9,6 +9,6 @@ setup_file() {
 @test 'status: show status' {
   run "$(magento_docker_base_path)"/bin/status
   echo "$output"
-  regex="^Name(.*)Command(.*)State"
+  regex="(.*)Name(.*)Command(.*)State"
   [[ ${lines[0]} =~ $regex ]]
 }
