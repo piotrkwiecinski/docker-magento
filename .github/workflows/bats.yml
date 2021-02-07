@@ -27,10 +27,10 @@ jobs:
         with:
           php-version: '7.4'
 
-      - name: Add Magento Repository Credentials
-        run: composer config --global http-basic.repo.magento.com '${{ secrets.MAGENTO_REPO_USERNAME }}' '${{ secrets.MAGENTO_REPO_PASSWORD }}'
-
       - name: Test
         run: |
           which composer
+          echo hash composer
+          composer config --global http-basic.repo.magento.com '${{ secrets.MAGENTO_REPO_USERNAME }}' '${{ secrets.MAGENTO_REPO_PASSWORD }}'
+          ls ~/.composer/auth.json
           bats compose/tests
