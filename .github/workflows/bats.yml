@@ -1,13 +1,16 @@
 name: "Script Tests"
+
 on:
   push:
     branches: ["master"]
   pull_request:
 
 jobs:
-  build:
-    name: build
+  bats:
+    name: "Scripts Tests"
     runs-on: ubuntu-latest
+    container:
+      options: --user 1001
     steps:
 
       - name: Setup BATS
