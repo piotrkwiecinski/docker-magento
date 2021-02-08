@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  bats:
+  build:
     name: "Scripts Tests"
     runs-on: ubuntu-latest
     container:
