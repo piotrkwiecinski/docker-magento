@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: "Scripts Tests"
+    name: build
     runs-on: ubuntu-latest
     container:
       options: --user 1001
