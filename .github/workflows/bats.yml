@@ -27,10 +27,11 @@ jobs:
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: '7.4'
+          tools: composer:v1
       - name: Test
         shell: bash
         run: |
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          useradd user
-          chown -R user:user .
+          sudo useradd user
+          sudo chown -R user:user .
           su user -c 'bats compose/tests'
