@@ -31,4 +31,6 @@ jobs:
         shell: bash
         run: |
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          bats compose/tests
+          useradd user
+          chown -R user:user .
+          su user -c 'bats compose/tests'
