@@ -3,8 +3,10 @@ set -o errexit
 
 # shellcheck source=../env/db.env
 source env/db.env
-BASE_URL=${1:-magento2.test}
+# shellcheck source=../env/magento.env
+source env/magento.env
 
+BASE_URL=${1:-magento2.test}
 ES_HOST=elasticsearch
 ES_PORT=9200
 
@@ -12,19 +14,9 @@ bin/stop
 
 docker-compose -f docker-compose.yml up -d
 [ $? != 0 ] && echo "Failed to start Docker services" && exit
-sleep 5 #Ensure containers are started...
-
-echo "Copying all files from host to container..."
-rm -rf src/vendor #Clear for step below
-bin/copytocontainer --all
 
 bin/clinotty chmod u+x bin/magento
-
-# bin/setup-composer-auth
-
-echo "Forcing reinstall of composer deps to ensure perms & reqs..."
-bin/clinotty composer global require hirak/prestissimo
-bin/clinotty composer update
+mv .vscode src
 
 echo "Waiting for connection to Elasticsearch..."
 bin/clinotty timeout 30 bash -c "
@@ -41,15 +33,15 @@ bin/clinotty bin/magento setup:install \
   --db-password="$MYSQL_PASSWORD" \
   --base-url=https://"$BASE_URL"/ \
   --base-url-secure=https://"$BASE_URL"/ \
-  --backend-frontname=admin \
-  --admin-firstname=John \
-  --admin-lastname=Smith \
-  --admin-email=john.smith@gmail.com \
-  --admin-user=john.smith \
-  --admin-password=password123 \
-  --language=en_US \
-  --currency=USD \
-  --timezone=America/New_York \
+  --backend-frontname="$MAGENTO_ADMIN_FRONTNAME" \
+  --admin-firstname="$MAGENTO_ADMIN_FIRST_NAME" \
+  --admin-lastname="$MAGENTO_ADMIN_LAST_NAME" \
+  --admin-email="$MAGENTO_ADMIN_EMAIL" \
+  --admin-user="$MAGENTO_ADMIN_USER" \
+  --admin-password="$MAGENTO_ADMIN_PASSWORD" \
+  --language="$MAGENTO_LOCALE" \
+  --currency="$MAGENTO_CURRENCY" \
+  --timezone="$MAGENTO_TIMEZONE" \
   --amqp-host=rabbitmq \
   --amqp-port=5672 \
   --amqp-user=guest \
@@ -70,10 +62,11 @@ bin/clinotty bin/magento setup:install \
   --elasticsearch-port=$ES_PORT \
   --use-rewrites=1
 
+echo "Copying files from container to host after install..."
+bin/copyfromcontainer --all
+
 echo "Turning on developer mode.."
 bin/clinotty bin/magento deploy:mode:set developer
-
-bin/clinotty bin/magento indexer:reindex
 
 echo "Forcing deploy of static content to speed up initial requests..."
 bin/clinotty bin/magento setup:static-content:deploy -f
@@ -83,10 +76,6 @@ bin/clinotty bin/magento indexer:reindex
 
 echo "Clearing the cache to apply updates..."
 bin/clinotty bin/magento cache:flush
-
-echo "Copying files from container to host after install..."
-bin/copyfromcontainer app
-bin/copyfromcontainer vendor
 
 echo "Generating SSL certificate..."
 bin/setup-ssl "$BASE_URL"

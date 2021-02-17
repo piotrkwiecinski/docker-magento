@@ -8,6 +8,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - PHP image `8.0-fpm-develop` now available for testing purposes.
 
+## [37.0.2] - 2021-02-17
+
+### Added
+- New `bin/setup-composer-auth` file to setup Composer auth creds.
+
+## [37.0.1] - 2021-02-15
+
+### Fixed
+- Fix onelinesetup script bug.
+
+## [37.0.0] - 2021-02-14
+
+### Added
+- Official support for Xdebug 3 [#390](https://github.com/markshust/docker-magento/issues/390). The new PHP images are `7.3-fpm-12` & `7.4-fpm-5`.
+- If you need to still use Xdebug 2, update your docker-compose.yml files to instead look at PHP image `7.3-fpm-11` or `7.4-fpm-4`. These images are exactly the same other than being pegged to Xdebug 2.
+
+## [36.0.2] - 2021-02-14
+
+### Updated
+- Reverted Xdebug to version 2 for backwards-compatible support [#390](https://github.com/markshust/docker-magento/issues/390).
+
+## [36.0.1] - 2021-02-04
+
+### Updated
+- Reverted DB image back to `percona:5.7` until issues with MySQL 8.0 image are resolved.
+
+## [36.0.0] - 2021-02-04
+
+### Added
+- New Elasticsearch Docker images `7.7`, `7.7.1-0` [#392](https://github.com/markshust/docker-magento/issues/392).
+- SpellCheck GitHub Action for continuous integration checks of shell scripts [#387](https://github.com/markshust/docker-magento/pull/387), [#388](https://github.com/markshust/docker-magento/pull/388).
+
+### Fixed
+- Support filesystem paths with spaces [e5f22e56](https://github.com/markshust/docker-magento/commit/e5f22e56fcd382b8339d5804a9d236dd6b238a3d).
+- Added missing `bin/cache-clean` file [f0e57202](https://github.com/markshust/docker-magento/commit/f0e5720281cd9f536f163bd5bdfe5bd66a956dc6).
+
+### Updated
+- Updated PHP images to NodeJS version 14 LTS [4a81f2b8](https://github.com/markshust/docker-magento/commit/4a81f2b8c61674b261ee7b42752e21fc8d5e945d).
+- Changed `db` service to use MySQL 8.0 Docker image.
+
 ## [35.0.0] - 2021-01-29
 
 ### Added
