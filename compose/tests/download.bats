@@ -7,6 +7,6 @@ setup_file() {
 }
 
 @test 'download: download' {
-   run "$(magento_docker_base_path)"/bin/download 2.4.1
+   run "$(magento_docker_base_path)"/bin/download 2.4.2
    [ "$status" -eq 0 ]
 }

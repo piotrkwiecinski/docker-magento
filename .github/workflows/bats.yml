@@ -33,6 +33,20 @@ jobs:
         env:
           COMPOSE_INTERACTIVE_NO_CLI: 1
         run: |
+          bats --tap compose/tests/status.bats
+
+      - name: Test 2
+        shell: bash
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+        run: |
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          bats compose/tests/status.bats compose/tests/download.bats
-          bats compose/tests/bash.bats
+          bats --tap compose/tests/download.bats
+          bats --tap compose/tests/bash.bats         
+
+      - name: Test 3
+        shell: bash
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+        run: |
+          bats --tap compose/tests/bash.bats                  
