@@ -30,8 +30,8 @@ jobs:
           tools: composer:v1
       - name: Test
         shell: bash
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: 1
         run: |
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          sudo useradd user
-          sudo chown -R user:user .
-          su user -c 'bats compose/tests'
+          bats compose/tests
