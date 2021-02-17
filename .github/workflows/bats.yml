@@ -34,4 +34,5 @@ jobs:
           COMPOSE_INTERACTIVE_NO_CLI: 1
         run: |
           echo '${{ secrets.COMPOSER_AUTH_JSON }}' > ~/.composer/auth.json
-          bats compose/tests
+          bats compose/tests/status.bats compose/tests/download.bats
+          bats compose/tests/bash.bats

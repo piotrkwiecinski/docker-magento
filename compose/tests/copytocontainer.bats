@@ -21,6 +21,7 @@ setup() {
 }
 
 @test 'copytocontainer: copy a directory to a nested directory' {
+  skip
   cd "$(magento_docker_base_path)"
   mkdir -p src/${DUMMY_TEST_DIR}
   touch src/${DUMMY_TEST_DIR}/file.1.txt
@@ -34,6 +35,7 @@ setup() {
 }
 
 @test 'copytocontainer: show help on no arguments' {
+  skip
   cd "$(magento_docker_base_path)"
   run bin/copytocontainer
   [ "${status}" -eq 0 ]
