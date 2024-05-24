@@ -1,0 +1,24 @@
+services:
+  app:
+    # to allow traefik handle ports
+    ports: !reset []
+    labels:
+        - traefik.enable=true
+        - traefik.http.routers.${PROJECT_NAME}.tls=true
+        - traefik.http.routers.${PROJECT_NAME}.rule=HOST(`${PROJECT_DOMAIN}`)
+        - traefik.http.services.loadbalancer.server.port=8443
+        - traefik.http.services.loadbalancer.server.schema=https
+        - traefik.docker.network=${PROJECT_NAME}_default
+
+    mailcatcher:
+        # to allow traefik handle ports
+        ports: !reset []
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.${PROJECT_NAME}-mailcatcher.tls=true
+            - traefik.http.routers.${PROJECT_NAME}-mailcacher.rule=HOST(`mail.${PROJECT_DOMAIN}`)
+            - traefik.http.services.loadbalancer.server.port=1080
+            - traefik.http.services.loadbalancer.server.schema=http
+            - traefik.docker.network=${PROJECT_NAME}_default
+
+

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# shellcheck source=../env/project.env
+source env/project.env
+
 if docker compose version > /dev/null 2>&1; then
   DOCKER_COMPOSE="docker compose"
 else
@@ -7,6 +10,10 @@ else
 fi
 
 COMPOSE_FILES=("compose.yaml" "compose.healthcheck.yaml")
+
+if [ "$TRAEFIK_ENABLED" == "1" ]; then
+  COMPOSE_FILES+=("compose.traefik.yaml")
+fi
 
 # If --no-dev is passed to this script, we won't load the compose.dev.yaml file,
 # but this argument should be removed so it isn't passed to docker compose.
@@ -16,6 +23,10 @@ if [ "$1" == "--no-dev" ]; then
 else
   # The "--no-dev" argument wasn't passed in, so let's load the dev config.
   COMPOSE_FILES+=("compose.dev.yaml")
+
+  if [ "$TRAEFIK_ENABLED" == "1" ]; then
+    COMPOSE_FILES+=("compose.traefik.dev.yaml")
+  fi
 fi
 
 # Loop over the list of compose files, and prefix them with -f.

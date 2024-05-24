@@ -1,0 +1,12 @@
+services:
+  phpmyadmin:
+    # to allow traefik handle ports
+    ports: !reset []
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${PROJECT_NAME}-phpmyadmin.tls=true
+      - traefik.http.routers.${PROJECT_NAME}-phpadmin.rule=HOST(`phpadmin.${PROJECT_DOMAIN}`)
+      - traefik.services.loadbalancer.server.port=8080
+      - traefik.http.services.loadbalancer.server.server.schema=http
+      - traefik.docker.network=${PROJECT_NAME}_default
+
