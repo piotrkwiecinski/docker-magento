@@ -2,7 +2,7 @@
 
 DOMAIN=${1-magento.test}
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ENV_FILE="${DIR}/../.env"
+PROJECT_ENV_FILE="${DIR}/../env/project.env"
 
 if [ -f "${PROJECT_ENV_FILE}" ]; then
     exit 0
@@ -12,4 +12,5 @@ cat > "${PROJECT_ENV_FILE}" <<EOF
 TRAEFIK_ENABLED=${TRAEFIK_ENABLED-0}
 PROJECT_DOMAIN=${DOMAIN}
 PROJECT_NAME=$(basename $(pwd))
+PROJECT_PROXY_NETWORK=local-dev-proxy
 EOF

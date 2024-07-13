@@ -8,7 +8,9 @@ services:
         - traefik.http.routers.${PROJECT_NAME}.rule=HOST(`${PROJECT_DOMAIN}`)
         - traefik.http.services.loadbalancer.server.port=8443
         - traefik.http.services.loadbalancer.server.schema=https
-        - traefik.docker.network=${PROJECT_NAME}_default
+        - traefik.docker.network=${PROJECT_PROXY_NETWORK}
+    networks:
+      - ${PROJECT_PROXY_NETWORK}
 
   mailcatcher:
     # to allow traefik handle ports
@@ -19,6 +21,10 @@ services:
       - traefik.http.routers.${PROJECT_NAME}-mailcacher.rule=HOST(`mail.${PROJECT_DOMAIN}`)
       - traefik.http.services.loadbalancer.server.port=1080
       - traefik.http.services.loadbalancer.server.schema=http
-      - traefik.docker.network=${PROJECT_NAME}_default
+      - traefik.docker.network=${PROJECT_PROXY_NETWORK}
+    networks:
+      - ${PROJECT_PROXY_NETWORK}
 
-
+networks:
+  ${PROJECT_PROXY_NETWORK}:
+    external: true

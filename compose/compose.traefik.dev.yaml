@@ -9,4 +9,6 @@ services:
       - traefik.services.loadbalancer.server.port=8080
       - traefik.http.services.loadbalancer.server.server.schema=http
       - traefik.docker.network=${PROJECT_NAME}_default
+    networks:
+      - ${PROJECT_PROXY_NETWORK}
 

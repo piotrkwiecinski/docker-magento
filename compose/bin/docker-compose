@@ -29,6 +29,12 @@ else
   fi
 fi
 
+if [ -f "env/project.env" ]; then
+    ENV_FILE="--env-file env/project.env"
+else
+    ENV_FILE=""
+fi
+
 # Loop over the list of compose files, and prefix them with -f.
 # This ensures paths with spaces aren't split when passed as parameters.
 COMPOSE_FILES_PREFIXED=()
@@ -36,4 +42,4 @@ for file in "${COMPOSE_FILES[@]}"; do
   COMPOSE_FILES_PREFIXED+=("-f" "$file")
 done
 
-${DOCKER_COMPOSE} "${COMPOSE_FILES_PREFIXED[@]}" "$@"
+${DOCKER_COMPOSE} "${ENV_FILE}" "${COMPOSE_FILES_PREFIXED[@]}" "$@"
