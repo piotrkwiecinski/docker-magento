@@ -5,10 +5,13 @@ if [ -d "./bin" ]; then
   exit 1
 fi
 
+TEMPLATE_REPOSITORY=${TEMPLATE_REPOSITORY:-markshust/docker-magento}
+TEMPLATE_REPOSITORY_BRANCH=${TEMPLATE_REPOSITORY_BRANCH:-master}
+
 git init -qqq
-git remote add origin https://github.com/markshust/docker-magento
+git remote add origin https://github.com/"${TEMPLATE_REPOSITORY}"
 git fetch origin -qqq
-git checkout origin/master -- compose
+git checkout origin/"${TEMPLATE_REPOSITORY_BRANCH}" -- compose
 
 mv compose/* ./
 mv compose/.gitignore ./

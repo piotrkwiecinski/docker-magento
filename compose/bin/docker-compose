@@ -7,6 +7,12 @@ else
 fi
 
 COMPOSE_FILES=("compose.yaml" "compose.healthcheck.yaml")
+ENV_FILES=()
+
+# If file env/services.env exists add it to ENV_FILES array
+if [ -f env/services.env ]; then
+  ENV_FILES+=("env/services.env")
+fi
 
 # If --no-dev is passed to this script, we won't load the compose.dev.yaml file,
 # but this argument should be removed so it isn't passed to docker compose.
@@ -25,4 +31,9 @@ for file in "${COMPOSE_FILES[@]}"; do
   COMPOSE_FILES_PREFIXED+=("-f" "$file")
 done
 
-${DOCKER_COMPOSE} "${COMPOSE_FILES_PREFIXED[@]}" "$@"
+ENV_FILES_PREFIXED=()
+for file in "${ENV_FILES[@]}"; do
+  ENV_FILES_PREFIXED+=("--env-file" "$file")
+done
+
+${DOCKER_COMPOSE} "${ENV_FILES_PREFIXED[@]}"  "${COMPOSE_FILES_PREFIXED[@]}" "$@"
