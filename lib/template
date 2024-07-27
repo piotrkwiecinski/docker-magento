@@ -13,9 +13,12 @@ git remote add origin https://github.com/"${TEMPLATE_REPOSITORY}"
 git fetch origin -qqq
 git checkout origin/"${TEMPLATE_REPOSITORY_BRANCH}" -- compose
 
+VERSION=${VERSION:-2.4.7}
+
 mv compose/* ./
 mv compose/.gitignore ./
 mv compose/.vscode ./
+mv compose/template/env/"services-${VERSION}.env" ./env/services.env
 rm -rf compose .git
 git init
 

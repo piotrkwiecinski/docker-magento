@@ -7,7 +7,7 @@ EDITION=${3:-community}
 TEMPLATE_REPOSITORY=${TEMPLATE_REPOSITORY:-markshust/docker-magento}
 TEMPLATE_REPOSITORY_BRANCH=${TEMPLATE_REPOSITORY_BRANCH:-master}
 
-curl -s https://raw.githubusercontent.com/"${TEMPLATE_REPOSITORY}"/"${TEMPLATE_REPOSITORY_BRANCH}"/lib/template | bash
+VERSION=$VERSION curl -s https://raw.githubusercontent.com/"${TEMPLATE_REPOSITORY}"/"${TEMPLATE_REPOSITORY_BRANCH}"/lib/template | bash
 
 # &&'s are used below otherwise onelinesetup script fails/errors after bin/download
 bin/download "${VERSION}" "${EDITION}" \
